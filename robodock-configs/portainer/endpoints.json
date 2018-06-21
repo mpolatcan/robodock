@@ -1,0 +1,14 @@
+[
+  {
+    "Name": "hadoop-dist-docker-2", 
+    "URL": "tcp://hadoop-dist-docker-2:2375"
+  }, 
+  {
+    "Name": "hadoop-dist-docker-3", 
+    "URL": "tcp://hadoop-dist-docker-3:2375"
+  }, 
+  {
+    "Name": "hadoop-dist-docker-4", 
+    "URL": "tcp://hadoop-dist-docker-4:2375"
+  }
+]

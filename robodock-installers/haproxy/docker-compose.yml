@@ -1,0 +1,29 @@
+version: "3.5"
+services:
+  haproxy:
+    build: .
+    image: prodbase/haproxy
+    container_name: haproxy
+    hostname: haproxy
+    restart: always
+    ports:
+      - 6060:6060 # HAProxy stats port
+      - 3000:3000 # Grafana port
+      - 5601:5601 # Kibana port
+      - 8080:8080 # Storm Ui port
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks:
+      prodbase-net:
+        ipv4_address: 10.10.100.2
+
+networks:
+  prodbase-net:
+    name: prodbase-net
+    driver: overlay
+    attachable: true
+    ipam:
+      driver: default
+      config:
+        -
+          subnet: 10.10.0.0/16

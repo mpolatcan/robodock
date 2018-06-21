@@ -1,0 +1,15 @@
+{
+  "datacenter": "consulbase",
+  "data_dir": "/tmp/consul",
+  "log_level": "INFO",
+  "server": true,
+  "client_addr": "0.0.0.0",
+  "bind_addr": "0.0.0.0",
+  "ui": true,
+  "retry_join": [
+    "consul01",
+    "consul02",
+    "consul03"
+  ],
+  "bootstrap_expect": 3
+}

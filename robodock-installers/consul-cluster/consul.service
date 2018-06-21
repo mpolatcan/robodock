@@ -1,0 +1,15 @@
+[Unit]
+Description=Consul
+Documentation=https://www.consul.io/docs/index.html
+After=network-online.target firewalld.service
+Wants=network-online.target
+
+[Service]
+ExecStart=/usr/local/bin/consul agent -config-file /home/techbase/consul-config.json
+ExecReload=/bin/kill -s HUP $MAINPID
+TimeoutStartSec=0
+# restart the consul process if it exits prematurely
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,58 @@
+#
+#      ______     ____    ______     ____    _____     ____     _____    __   __
+#     | ___  \  / ___ \  | ___  \  / ___ \  | ___ \  / ___ \  / _____\  |  | / /
+#    | |__| /  | |  | | | |__| /  | |  | | | |  | | | |  | | | |       |  |/ /
+#   |      \  | |  | | |  ___ \  | |  | | | |  | | | |  | | | |       |    /
+#  |  |\   \ | |__| | |  |__| | | |__| | | |__| | | |__| | | |_____  |  |\ \
+# |__|  \__\ \_____/ |_______/  \_____/ |______/  \_____/  \______/ |__| \__\
+#
+#
+
+# Example config for Robodock cluster
+servers.hosts:
+  -
+    name: "hadoop-dist-docker-2"
+    hostname_or_ip: hadoop-dist-docker-2
+  -
+    name: "hadoop-dist-docker-3"
+    hostname_or_ip: hadoop-dist-docker-3
+  -
+    name: "hadoop-dist-docker-4"
+    hostname_or_ip: hadoop-dist-docker-4
+
+# -------------- High Available Services --------------
+zookeeper:
+  nodes: "1,2,3"
+  configs:
+    - ZOOKEEPER_IMAGE_OR_DOCKERFILE=zookeeper:3.4.12
+
+kafka:
+  nodes: "1,2,3"
+  configs:
+    - KAFKA_HEAP_OPTS=-Xms512m -Xmx512m
+
+storm_worker:
+  nodes: "1,2,3"
+
+storm_ui:
+  nodes: "2"
+
+postgres:
+  nodes: "1,2,3"
+
+storm_nimbus:
+  nodes: "1"
+
+redis:
+  nodes: "1,2,3,2,3,1"
+
+# --------------- Monitoring Services ------------------
+portainer:
+  nodes: "1"
+
+healthchecker:
+  nodes: "1"
+
+# -------------- Standalone Services --------------
+redis_cluster:
+  nodes: "1"

@@ -1,0 +1,4 @@
+robodock.healthchecker.nodes:
+  - hadoop-dist-docker-2
+  - hadoop-dist-docker-3
+  - hadoop-dist-docker-4
