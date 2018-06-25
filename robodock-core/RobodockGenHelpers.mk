@@ -109,7 +109,7 @@ service-port-list-gen:
 .PHONY: redis-ip-port-list-gen
 redis-ip-port-list-gen:
 	for i in $(shell seq 1 $(node)); do \
-		printf "$(REDIS_IP_PREFIX).$$(expr $$i + 1):6379 " >> $(COMPOSE_FILE)
+		printf "$(REDIS_IP_PREFIX).$$(expr $$i + 1):6379 " >> $(COMPOSE_FILE); \
 	done; \
 	printf "\n" >> $(COMPOSE_FILE)
 
@@ -185,15 +185,14 @@ endif
 
 .PHONY: dir-gen-helper
 dir-gen-helper:
-ifneq ($(node),)
-	if [ $(node) -gt 0 ]; then \
-		sudo mkdir -p ../robodock/data/$(service)
-		sudo mkdir -p ../robodock/log/$(service)
+ifneq ($(node),0)
+	sudo mkdir -p ../robodock/data/$(service); \
+	sudo mkdir -p ../robodock/log/$(service); \
 
-		for i in $(shell seq 1 $(node)); do \
-			sudo mkdir -p ../robodock/data/$(service)/$(slave_folder_name)$$i; sudo mkdir -p ../robodock/log/$(service)/$(slave_folder_name)$$i; \
-		done
-	fi
+	for i in $(shell seq 1 $(node)); do \
+		sudo mkdir -p ../robodock/data/$(service)/$(slave_folder_name)$$i; \
+		sudo mkdir -p ../robodock/log/$(service)/$(slave_folder_name)$$i; \
+	done
 endif
 
 # *
@@ -238,7 +237,7 @@ ifneq ($(node),)
 	printf "backend $(service)_nodes\n" >> $(HAPROXY_CONFIG_PATH)
 	printf "    cookie SERVERID insert\n" >> $(HAPROXY_CONFIG_PATH)
 	for i in $(shell seq 1 $(node)); do \
-		printf "    server $(service)$$i $(service)$$i:$(port) cookie $(service)$$i check\n" >> $(HAPROXY_CONFIG_PATH)
+		printf "    server $(service)$$i $(service)$$i:$(port) cookie $(service)$$i check\n" >> $(HAPROXY_CONFIG_PATH); \
 	done; \
 	printf "\n" >> $(HAPROXY_CONFIG_PATH)
 endif

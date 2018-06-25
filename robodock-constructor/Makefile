@@ -1,11 +1,9 @@
-#
 #      ______     ____    ______     ____    _____     ____     _____    __   __
 #     | ___  \  / ___ \  | ___  \  / ___ \  | ___ \  / ___ \  / _____\  |  | / /
 #    | |__| /  | |  | | | |__| /  | |  | | | |  | | | |  | | | |       |  |/ /
 #   |      \  | |  | | |  ___ \  | |  | | | |  | | | |  | | | |       |    /
 #  |  |\   \ | |__| | |  |__| | | |__| | | |__| | | |__| | | |_____  |  |\ \
 # |__|  \__\ \_____/ |_______/  \_____/ |______/  \_____/  \______/ |__| \__\
-#
 
 # Written by Mutlu Polatcan
 # 21.06.2018
@@ -339,31 +337,31 @@ haproxy-config:
 .PHONY: robodock-init
 robodock-init:
 	if [ ! -d ../robodock ]; then \
-		mkdir ../robodock
-		mkdir ../robodock/projects
-		mkdir ../robodock/datasets
-		mkdir ../robodock/notebooks
-		mkdir ../robodock/streamers
-		mkdir ../robodock/models
+		mkdir ../robodock; \
+		mkdir ../robodock/projects; \
+		mkdir ../robodock/datasets; \
+		mkdir ../robodock/notebooks; \
+		mkdir ../robodock/streamers; \
+		mkdir ../robodock/models; \
 	fi
 
-.PHONY: wipe
+.PHONY: wipe-data
 wipe-data:
 	if [ -d ../robodock/data ]; then \
-		sudo rm -r ../robodock/data
-	fi
+		sudo rm -r ../robodock/data; \
+	fi; \
 
 	if [ -d ../robodock/log ]; then \
-		sudo rm -r ../robodock/log
-	fi
+		sudo rm -r ../robodock/log; \
+	fi; \
 
 	$(MAKE) regen-dirs zk_node=$(zk_node) es_node=$(es_node) cassandra_node=$(cassandra_node) storm_node=$(storm_node) kafka_node=$(kafka_node) redis_node=$(redis_node) pg_node=$(pg_node)
-	sudo chmod 777 -R ../robodock
+	sudo chmod -R 777 ../robodock
 
 .PHONY: regen-dirs
 regen-dirs:
-	mkdir ../robodock/data; \
-	mkdir ../robodock/log; \
+	mkdir ../robodock/data
+	mkdir ../robodock/log
 
 	$(MAKE) -C ../robodock-core -f RobodockGenHelpers.mk dir-gen-helper service=cassandra slave_folder_name=cassandra node=$(cassandra_node)
 	$(MAKE) -C ../robodock-core -f RobodockGenHelpers.mk dir-gen-helper service=storm slave_folder_name=worker node=$(storm_node)

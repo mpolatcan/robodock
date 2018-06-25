@@ -177,16 +177,16 @@ storm-worker-gen:
 .PHONY: kafka-gen
 kafka-gen:
 	if [[ $(kafka_type) == confluent ]]; then \
-		$(MAKE) -f RobodockGenHelpers.mk dc-sv-attr-gen service=$(SERVICE_KAFKA)$$kafka_index image=$(CONFLUENT_KAFKA_IMAGE_OR_DOCKERFILE) container_name=$(SERVICE_KAFKA)$$kafka_index hostname=$(SERVICE_KAFKA)$$kafka_index restart="always"
+		$(MAKE) -f RobodockGenHelpers.mk dc-sv-attr-gen service=$(SERVICE_KAFKA)$$kafka_index image=$(CONFLUENT_KAFKA_IMAGE_OR_DOCKERFILE) container_name=$(SERVICE_KAFKA)$$kafka_index hostname=$(SERVICE_KAFKA)$$kafka_index restart="always"; \
 	else \
-		$(MAKE) -f RobodockGenHelpers.mk dc-sv-attr-gen service=$(SERVICE_KAFKA)$$kafka_index image=$(KAFKA_IMAGE_OR_DOCKERFILE) container_name=$(SERVICE_KAFKA)$$kafka_index hostname=$(SERVICE_KAFKA)$$kafka_index restart="always"
+		$(MAKE) -f RobodockGenHelpers.mk dc-sv-attr-gen service=$(SERVICE_KAFKA)$$kafka_index image=$(KAFKA_IMAGE_OR_DOCKERFILE) container_name=$(SERVICE_KAFKA)$$kafka_index hostname=$(SERVICE_KAFKA)$$kafka_index restart="always"; \
 	fi; \
 
 	$(MAKE) -f RobodockGenHelpers.mk dc-mv-attr-gen attr_name=$(ATTR_PORTS) args=$$(expr $(KAFKA_HOST_PORT_BEGINNING) + $$kafka_index - 1)":"$(KAFKA_HOST_PORT_BEGINNING)
 	$(MAKE) -f RobodockGenHelpers.mk dc-mv-attr-gen attr_name=$(ATTR_ENVIRONMENT) args="KAFKA_BROKER_ID="$$kafka_index" KAFKA_AUTO_CREATE_TOPICS_ENABLE="$(KAFKA_AUTO_CREATE_TOPICS_ENABLE)" KAFKA_DELETE_TOPIC_ENABLE="$(KAFKA_DELETE_TOPIC_ENABLE)
 
 	if [[ $(kafka_type) == confluent ]]; then \
-		$(MAKE) -f RobodockGenHelpers.mk dc-mv-attr-gen args="KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://"$(SERVICE_KAFKA)$$kafka_index":"$(KAFKA_HOST_PORT_BEGINNING)" KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR="$(KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR)
+		$(MAKE) -f RobodockGenHelpers.mk dc-mv-attr-gen args="KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://"$(SERVICE_KAFKA)$$kafka_index":"$(KAFKA_HOST_PORT_BEGINNING)" KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR="$(KAFKA_OFFSETS_TOPIC_REPLICATION_FACTOR); \
 	else \
 		$(MAKE) -f RobodockGenHelpers.mk dc-mv-attr-gen args="KAFKA_ADVERTISED_HOST_NAME="$(SERVICE_KAFKA)$$kafka_index" KAFKA_ADVERTISED_PORT="$(KAFKA_ADVERTISED_PORT)" MIN_INSYNC_REPLICASE="$(MIN_INSYNC_REPLICASE)" DEFAULT_REPLICATION_FACTOR="$(DEFAULT_REPLICATION_FACTOR); \
 	fi; \
